@@ -1,0 +1,11 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; background-color: rgb(46, 50, 69); -unity-background-scale-mode: stretch-to-fill; background-size: cover;">
+        <ui:Label text="SETTINGS" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Pixeled.ttf?fileID=12800000&amp;guid=6bafcd9926502cb4fa83004df50731a6&amp;type=3#Pixeled&quot;); color: rgb(255, 255, 255); -unity-text-align: middle-center; letter-spacing: 80px; height: 8%; opacity: 1;"/>
+        <ui:TabView style="height: 92%;">
+            <ui:Tab label="Tab" name="Tab"/>
+            <ui:Tab label="Tab" name="Tab"/>
+            <ui:Tab label="Tab" name="Tab"/>
+            <ui:Tab label="Tab" name="Tab"/>
+        </ui:TabView>
+    </ui:VisualElement>
+</ui:UXML>
