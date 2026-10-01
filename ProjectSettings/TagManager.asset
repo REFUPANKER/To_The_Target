@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - ScoreTarget
+  - ExplosiveTarget
   layers:
   - Default
   - TransparentFX

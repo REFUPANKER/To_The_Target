@@ -48,6 +48,10 @@ public class Guns : MonoBehaviour
         magIn = defaultMagCapacity;
         RefreshBulletCount();
         reloading = false;
+        if (aiming)
+        { // after reload if user still holding the button we gotta reloacte the gun
+            currentGunMargin = GunAimingMarginToCamera; defaultGunRealignerSmoothness = gunRealignerAimingSmoothness;
+        }
     }
     void Update()
     {
@@ -56,14 +60,24 @@ public class Guns : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, Camera.main.transform.TransformPoint(currentGunMargin), defaultGunRealignerSmoothness * Time.deltaTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, Camera.main.transform.rotation, defaultGunRealignerSmoothness * Time.deltaTime);
 
+        if (!anims.isPlaying && !aiming && Input.GetKeyDown(KeyCode.F)) { anims.Play($"{gunName}_inspect"); }
+
+        if (aiming && anims.IsPlaying($"{gunName}_inspect")) { anims.Rewind($"{gunName}_inspect"); anims.Sample(); anims.Stop(); }//TODO: fix : when inspecting its also aiming and its looking bad
+
         if (CanFire && Input.GetKeyDown(KeyCode.Mouse0) && !anims.IsPlaying($"{gunName}_fire") && !reloading)
         {
+            if (anims.IsPlaying($"{gunName}_inspect")) { anims.Stop($"{gunName}_inspect"); }
+            AudioSource.PlayClipAtPoint(fireSfx, transform.position);
             anims.Play($"{gunName}_fire");
             fireParticles.Play();
             magIn = magIn - 1 < 0 ? 0 : magIn - 1;
             if (magIn == 0 && magStack > 0)
             {
                 reloading = true;
+                if (aiming)
+                { // set to default margins because i dont want player watch reloading that close
+                    currentGunMargin = GunMarginToCamera; defaultGunRealignerSmoothness = gunRealignerSmoothness;
+                }
                 anims.Play($"{gunName}_reload");
             }
             RefreshBulletCount();
@@ -71,12 +85,18 @@ public class Guns : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(NuzzlePoint.position, NuzzlePoint.forward, out hit, maxRange))
             {
-                AudioSource.PlayClipAtPoint(fireSfx, transform.position);
                 Debug.DrawLine(NuzzlePoint.position, hit.point, Color.green, 0.5f);
-                if (hit.transform.gameObject.tag == "ScoreTarget")
+
+                switch (hit.transform.gameObject.tag)
                 {
-                    ScoreTarget st = hit.transform.GetComponent<ScoreTarget>();
-                    st.Fall(hit.point);
+                    case "ScoreTarget":
+                        ScoreTarget st = hit.transform.GetComponent<ScoreTarget>();
+                        st.Fall(hit.point);
+                        break;
+                    case "ExplosiveTarget":
+                        ExplosiveTarget expT = hit.transform.GetComponent<ExplosiveTarget>();
+                        expT.Explode();
+                        break;
                 }
             }
         }
@@ -93,7 +113,7 @@ public class Guns : MonoBehaviour
         twoIkLeft_Hint.localPosition = twoIkLeft_HintPos;
         twoIkRight_Hint.localPosition = twoIkRight_HintPos;
 
-        if (!aiming && Input.GetKeyDown(KeyCode.Mouse1))
+        if (!reloading && !aiming && Input.GetKeyDown(KeyCode.Mouse1))
         {
             aiming = true;
             currentGunMargin = GunAimingMarginToCamera;
