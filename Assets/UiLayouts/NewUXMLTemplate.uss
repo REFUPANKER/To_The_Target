@@ -1,0 +1,46 @@
+.btn {
+    letter-spacing: 0;
+    transition-duration: 0.2s;
+    font-size: 60px;
+    background-color: rgba(188, 188, 188, 0);
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&guid=782f6c62df863b74fbb41b0d20fdc22d&type=3#EXEPixelPerfect");
+    -unity-font-style: normal;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    height: auto;
+    width: initial;
+    -unity-text-align: middle-center;
+    white-space: nowrap;
+    text-overflow: clip;
+    transition-timing-function: linear;
+}
+
+.btn:hover {
+    transition-property: all;
+    transition-duration: 0.1s;
+    transition-timing-function: linear;
+    font-size: 70px;
+    background-color: rgba(102, 102, 102, 0.498);
+    border-bottom-width: 20px;
+    border-left-color: rgb(255, 120, 0);
+    border-right-color: rgb(255, 120, 0);
+    border-top-color: rgb(255, 120, 0);
+    border-bottom-color: rgb(255, 120, 0);
+}
+
+.btn:active {
+}

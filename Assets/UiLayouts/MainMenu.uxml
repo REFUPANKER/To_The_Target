@@ -1,0 +1,12 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UiLayouts/NewUXMLTemplate.uss?fileID=7433441132597879392&amp;guid=ad1f94b8c37ac0040a255aad81cb866c&amp;type=3#NewUXMLTemplate"/>
+    <ui:VisualElement style="flex-grow: 1; min-width: auto; background-color: rgba(0, 0, 0, 0.498); width: 40%; align-self: flex-start; justify-content: space-around; align-content: flex-start; padding-top: 30px; padding-right: 30px; padding-bottom: 30px; padding-left: 30px;">
+        <ui:Image style="aspect-ratio: 1; width: 60%; align-self: center; background-image: url(&quot;project://database/Assets/Materials/Icons/toTheTargetIco1.png?fileID=2800000&amp;guid=314cf3c348bedc1498b10ae3cba07357&amp;type=3#toTheTargetIco1&quot;);"/>
+        <ui:VisualElement style="flex-grow: initial; align-self: auto; height: auto; width: auto; justify-content: center; flex-direction: column; flex-wrap: nowrap;">
+            <ui:Button text="Play" name="play" class="btn"/>
+            <ui:Button text="Settings" name="settings" class="btn"/>
+            <ui:Button text="Training" name="training" class="btn"/>
+            <ui:Button text="Equipments" name="Equipments" class="btn"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

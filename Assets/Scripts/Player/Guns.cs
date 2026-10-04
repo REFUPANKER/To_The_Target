@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Guns : MonoBehaviour
 {
-    [SerializeField] Movement player;
+    [SerializeField] bool CanUse;
     [SerializeField] Transform twoIkRight_Target, twoIkLeft_Target;
     [SerializeField] Transform twoIkRight_Hint, twoIkLeft_Hint;
     [SerializeField] Transform gunHoldingPoint_Left, gunHoldingPoint_Right;
@@ -30,6 +30,10 @@ public class Guns : MonoBehaviour
     [SerializeField] float maxRange;
     bool reloading;
 
+    public void PickUpGun()
+    {
+        CanUse = true;
+    }
     void Start()
     {
         defaultGunRealignerSmoothness = gunRealignerSmoothness;
@@ -42,6 +46,9 @@ public class Guns : MonoBehaviour
         if (magStack + magIn <= 0) { CanFire = false; }
         bulletCounter.text = magStack + "/" + magIn;
     }
+    /// <summary>
+    /// called by reload event
+    /// </summary>
     void Reloaded()
     {
         magStack = magStack - 1 < 0 ? 0 : magStack - 1;
@@ -55,7 +62,7 @@ public class Guns : MonoBehaviour
     }
     void Update()
     {
-        if (!player.CanMove) { return; }
+        if (!CanUse) { return; }
 
         transform.position = Vector3.Lerp(transform.position, Camera.main.transform.TransformPoint(currentGunMargin), defaultGunRealignerSmoothness * Time.deltaTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, Camera.main.transform.rotation, defaultGunRealignerSmoothness * Time.deltaTime);

@@ -15650,7 +15650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9286f3475b9d9e4b9cd6671f418958a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Guns
-  player: {fileID: 1350208280}
+  CanUse: 1
   twoIkRight_Target: {fileID: 201548556}
   twoIkLeft_Target: {fileID: 1694461984}
   twoIkRight_Hint: {fileID: 513392319}
