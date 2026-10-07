@@ -36,7 +36,7 @@ public class ScoreTarget : MonoBehaviour
         int randomHitSfx = UnityEngine.Random.Range(0, metalHitSfxs.Length);
         metalHitSfxs[randomHitSfx].Play();
 
-        //Debug.DrawLine(centerPoint.position, hitpoint, Color.green, Mathf.Infinity);
+        Debug.DrawLine(centerPoint.position, hitpoint, Color.green, 5);
         float dist = Vector2.Distance(centerPoint.position, hitpoint);
         int score = 0;
         for (int i = 0; i < Type1ScorePoints.Length; i++)

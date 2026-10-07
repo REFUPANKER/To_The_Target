@@ -1,0 +1,27 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UiLayouts/SettingsMenuStyle.uss?fileID=7433441132597879392&amp;guid=3246798303aaab848b65c3527c50170b&amp;type=3#SettingsMenuStyle"/>
+    <ui:VisualElement style="flex-grow: 1; background-color: rgb(26, 26, 26); padding-top: 5px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+        <ui:VisualElement style="flex-grow: 0; height: auto; flex-direction: row; margin-bottom: 1px;">
+            <ui:Button text="Back" name="settings_back"/>
+            <ui:Label text="Settings" style="align-self: center; justify-content: center; align-content: center; color: rgb(255, 255, 255); -unity-text-align: middle-center; letter-spacing: 20px; -unity-font-definition: url(&quot;project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&amp;guid=782f6c62df863b74fbb41b0d20fdc22d&amp;type=3#EXEPixelPerfect&quot;); font-size: 50px; flex-shrink: 1; flex-grow: 1; align-items: auto;"/>
+        </ui:VisualElement>
+        <ui:TabView name="settingtabs" style="height: auto; flex-grow: 1;">
+            <ui:Tab label="Map" name="Tab" style="flex-grow: 2;">
+                <ui:VisualElement style="flex-grow: 1; flex-shrink: 1; width: 100%; justify-content: center; align-items: center; flex-wrap: nowrap;">
+                    <ui:Label text="Map" style="color: rgb(255, 255, 255); font-size: 40px;"/>
+                    <ui:Image style="background-color: rgb(0, 0, 0); aspect-ratio: 1; width: auto; height: 70%;"/>
+                </ui:VisualElement>
+            </ui:Tab>
+            <ui:Tab label="Sound">
+                <ui:VisualElement>
+                    <ui:Label text="Sound" style="color: rgb(255, 255, 255); font-size: 40px;"/>
+                </ui:VisualElement>
+            </ui:Tab>
+            <ui:Tab label="General" style="flex-grow: 2;">
+                <ui:VisualElement>
+                    <ui:Label text="General" style="color: rgb(255, 255, 255); font-size: 40px;"/>
+                </ui:VisualElement>
+            </ui:Tab>
+        </ui:TabView>
+    </ui:VisualElement>
+</ui:UXML>

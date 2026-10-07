@@ -1,0 +1,165 @@
+#settingtabs > .unity-tab-view__content-viewport > #unity-tab-view__header-container > #unity-tab__header {
+    font-size: 40px;
+    letter-spacing: 5px;
+    -unity-font-definition: url("project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&guid=782f6c62df863b74fbb41b0d20fdc22d&type=3#EXEPixelPerfect");
+    -unity-text-align: middle-center;
+    -unity-text-auto-size: none;
+    justify-content: center;
+    align-content: center;
+    align-self: center;
+    align-items: center;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 40px;
+    transition-duration: 0.2s;
+    background-color: rgb(41, 41, 41);
+    color: rgb(255, 255, 255);
+    width: 70%;
+    margin-right: 5px;
+    border-left-color: rgb(255, 120, 0);
+    border-right-color: rgb(255, 120, 0);
+    border-top-color: rgb(255, 120, 0);
+    border-bottom-color: rgb(255, 120, 0);
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 0;
+    border-left-width: 5px;
+}
+
+#settingtabs > .unity-tab-view__content-viewport > #unity-tab-view__header-container > #unity-tab__header:hover {
+    letter-spacing: 10px;
+    -unity-font-definition: url("project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&guid=782f6c62df863b74fbb41b0d20fdc22d&type=3#EXEPixelPerfect");
+    -unity-text-align: middle-center;
+    -unity-text-auto-size: none;
+    justify-content: center;
+    align-content: center;
+    align-self: center;
+    align-items: center;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 40px;
+    transition-duration: 0.2s;
+    background-color: rgb(150, 150, 150);
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 0;
+    border-left-width: 5px;
+    border-left-color: rgb(255, 120, 0);
+    border-right-color: rgb(255, 120, 0);
+    border-top-color: rgb(255, 120, 0);
+    border-bottom-color: rgb(255, 120, 0);
+}
+
+#settingtabs > .unity-tab-view__content-viewport > #unity-tab-view__header-container > #unity-tab__header:selected {
+    -unity-font-definition: url("project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&guid=782f6c62df863b74fbb41b0d20fdc22d&type=3#EXEPixelPerfect");
+    -unity-text-align: middle-center;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 40px;
+    transition-duration: 0.2s;
+    background-color: rgb(54, 54, 54);
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 0;
+    border-left-width: 5px;
+    border-left-color: rgb(255, 120, 0);
+    border-right-color: rgb(255, 120, 0);
+    border-top-color: rgb(255, 120, 0);
+    border-bottom-color: rgb(255, 120, 0);
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    flex-grow: 1;
+    align-content: auto;
+    align-items: auto;
+}
+
+#settingtabs > #unity-tab-view__content-container {
+    flex-grow: 1;
+    background-color: rgb(54, 54, 54);
+    border-bottom-left-radius: 35px;
+    border-bottom-right-radius: 35px;
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-left-color: rgb(255, 120, 0);
+    border-right-color: rgb(255, 120, 0);
+    border-top-color: rgb(255, 120, 0);
+    border-bottom-color: rgb(255, 120, 0);
+}
+
+VisualElement > #settingtabs > #unity-tab-view__content-container {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+VisualElement > #settingtabs > #Tab > #unity-tab__content-container {
+    flex-grow: 1;
+    align-content: auto;
+}
+
+VisualElement > #settings_back {
+    background-color: rgb(41, 41, 41);
+    color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&guid=782f6c62df863b74fbb41b0d20fdc22d&type=3#EXEPixelPerfect");
+    border-left-color: rgb(255, 120, 0);
+    border-right-color: rgb(255, 120, 0);
+    border-top-color: rgb(255, 120, 0);
+    border-bottom-color: rgb(255, 120, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 5px;
+    font-size: 50px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding-right: 50px;
+    padding-left: 50px;
+    transition-duration: 0.2s;
+}
+
+VisualElement > #settings_back:hover {
+    background-color: rgb(78, 78, 78);
+    color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&guid=782f6c62df863b74fbb41b0d20fdc22d&type=3#EXEPixelPerfect");
+    border-left-color: rgb(255, 120, 0);
+    border-right-color: rgb(255, 120, 0);
+    border-top-color: rgb(255, 120, 0);
+    border-bottom-color: rgb(255, 120, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 5px;
+    font-size: 50px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding-right: 50px;
+    padding-left: 50px;
+}

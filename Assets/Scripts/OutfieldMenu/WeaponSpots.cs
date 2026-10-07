@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class WeaponSpots : MonoBehaviour
     [SerializeField] bool CanUse;
     [SerializeField] CinemachineCamera cam;
     [SerializeField] Transform[] weapons;
+    [SerializeField] TextMeshProUGUI weaponName;
     [SerializeField] Vector3 zoomMargin;
     [SerializeField] int CurrentTargetIndex = 0;
     [SerializeField] float cameraSpeed = 10;
@@ -30,11 +32,17 @@ public class WeaponSpots : MonoBehaviour
     }
     void LeaveSpot()
     {
-        wp.isInWeaponSpot = false;
-        CanUse = true;
+        wp.LeaveSpot();
+        CanUse = false;
+        weaponName.text = "";
         cam.gameObject.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+    void PickWeapon()
+    {
+        wp.PickWeapon(weapons[CurrentTargetIndex]);
+        LeaveSpot();
     }
 
     void Update()
@@ -51,6 +59,10 @@ public class WeaponSpots : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             LeaveSpot();
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PickWeapon();
         }
 
         if (makeZoom)
@@ -70,6 +82,8 @@ public class WeaponSpots : MonoBehaviour
         CurrentTargetIndex = CurrentTargetIndex > weapons.Length - 1 ? 0 : (CurrentTargetIndex < 0 ? weapons.Length - 1 : CurrentTargetIndex);
 
         targetZoomPosition = weapons[CurrentTargetIndex].localPosition;
+        string cutName = weapons[CurrentTargetIndex].name.Substring(weapons[CurrentTargetIndex].name.LastIndexOf("_")+1);
+        weaponName.text = cutName;
         makeZoom = true;
     }
 

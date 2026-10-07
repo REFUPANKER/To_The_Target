@@ -9,13 +9,14 @@ public class MenuManager : MonoBehaviour
     [SerializeField] UIDocument uiDocument;
     [SerializeField] Transform playerPosition;
     [SerializeField] GameObject trainingUi;
+    [SerializeField] UIDocument settingsUi;
     [SerializeField] WeaponPicker weaponPicker;
 
     [Header("Movement Settings")]
     public bool CanMove = false;
     [SerializeField] Transform playerBody;
     [SerializeField] CharacterController controller;
-    [SerializeField] CinemachineCamera camFPS;
+    [SerializeField] CinemachineCamera camFPS, camSettings;
     [SerializeField] Animator anims;
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float mouseSensitivity = 100f;
@@ -31,10 +32,7 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-        var root = uiDocument.rootVisualElement;
-        var trainingButton = root.Q<Button>("training");
-        trainingButton.clicked += OnTrainingButtonClicked;
-
+        InitMenuEvents();
         CanMove = false;
     }
 
@@ -44,6 +42,50 @@ public class MenuManager : MonoBehaviour
         {
             Move();
         }
+    }
+
+    void InitMenuEvents()
+    {
+        var root = uiDocument.rootVisualElement;
+
+        var trainingButton = root.Q<Button>("training");
+        trainingButton.clicked += OnTrainingButtonClicked;
+
+        var settingsButton = root.Q<Button>("settings");
+        settingsButton.clicked += OnSettingsButtonClicked;
+
+        var settingsRoot = settingsUi.rootVisualElement;
+        var backButton = settingsRoot.Q<Button>("settings_back");
+
+        backButton.clicked += () => TurnBackFrom("Settings");
+    }
+
+    void OnSettingsButtonClicked()
+    {
+        camSettings.Priority += 2;
+        settingsUi.rootVisualElement.visible = true;
+        uiDocument.rootVisualElement.visible = false;
+        TogglePause(true);
+    }
+
+    public void TurnBackFrom(string menuName)
+    {
+        switch (menuName)
+        {
+            case "Settings":
+                camSettings.Priority -= 2;
+                settingsUi.rootVisualElement.visible = false;
+                break;
+            case "Training":
+                camFPS.Priority -= 2;
+                trainingUi.SetActive(false);
+                isTrainingActive = false;
+                CanMove = false;
+                weaponPicker.CanUse = false;
+                break;
+        }
+        uiDocument.rootVisualElement.visible = true;
+        TogglePause(true);
     }
 
     void OnTrainingButtonClicked()
@@ -56,7 +98,7 @@ public class MenuManager : MonoBehaviour
         playerBody.SetPositionAndRotation(playerPosition.position, playerPosition.rotation);
         controller.enabled = true;
         weaponPicker.CanUse = true;
-        uiDocument.gameObject.SetActive(false);
+        uiDocument.rootVisualElement.visible = false;
         TogglePause(false);
     }
 
@@ -76,7 +118,7 @@ public class MenuManager : MonoBehaviour
 
     void Move()
     {
-        if (!CanMove && !isTrainingActive && weaponPicker.isInWeaponSpot) { return; }
+        if (!CanMove || !isTrainingActive || weaponPicker.isInWeaponSpot) { return; }
 
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;

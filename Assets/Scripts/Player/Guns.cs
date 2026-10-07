@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Guns : MonoBehaviour
 {
-    [SerializeField] bool CanUse;
+    public bool CanUse;
     [SerializeField] Transform twoIkRight_Target, twoIkLeft_Target;
     [SerializeField] Transform twoIkRight_Hint, twoIkLeft_Hint;
     [SerializeField] Transform gunHoldingPoint_Left, gunHoldingPoint_Right;
@@ -19,7 +19,7 @@ public class Guns : MonoBehaviour
     float defaultGunRealignerSmoothness;
     bool aiming;
 
-    [SerializeField] bool CanFire = true;
+    [SerializeField] bool CanFire = true, isAutomatic;
     [SerializeField] ParticleSystem fireParticles;
     [SerializeField] Animation anims;
     [SerializeField] AudioClip fireSfx;
@@ -33,13 +33,13 @@ public class Guns : MonoBehaviour
     public void PickUpGun()
     {
         CanUse = true;
+        RefreshBulletCount();
     }
     void Start()
     {
         defaultGunRealignerSmoothness = gunRealignerSmoothness;
         currentGunMargin = GunMarginToCamera;
         defaultMagCapacity = magIn;
-        RefreshBulletCount();
     }
     void RefreshBulletCount()
     {
@@ -70,8 +70,8 @@ public class Guns : MonoBehaviour
         if (!anims.isPlaying && !aiming && Input.GetKeyDown(KeyCode.F)) { anims.Play($"{gunName}_inspect"); }
 
         if (aiming && anims.IsPlaying($"{gunName}_inspect")) { anims.Rewind($"{gunName}_inspect"); anims.Sample(); anims.Stop(); }//TODO: fix : when inspecting its also aiming and its looking bad
-
-        if (CanFire && Input.GetKeyDown(KeyCode.Mouse0) && !anims.IsPlaying($"{gunName}_fire") && !reloading)
+        bool firingType = isAutomatic ? Input.GetKey(KeyCode.Mouse0) : Input.GetKeyDown(KeyCode.Mouse0);
+        if (CanFire && firingType && !anims.IsPlaying($"{gunName}_fire") && !reloading)
         {
             if (anims.IsPlaying($"{gunName}_inspect")) { anims.Stop($"{gunName}_inspect"); }
             AudioSource.PlayClipAtPoint(fireSfx, transform.position);
