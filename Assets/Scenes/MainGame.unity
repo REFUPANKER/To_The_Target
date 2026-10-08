@@ -15667,6 +15667,7 @@ MonoBehaviour:
   gunRealignerSmoothness: 15
   gunRealignerAimingSmoothness: 40
   CanFire: 1
+  isAutomatic: 0
   fireParticles: {fileID: 1080830396}
   anims: {fileID: 1443095836}
   fireSfx: {fileID: 8300000, guid: e576b4d486420794483667ed6993db33, type: 3}

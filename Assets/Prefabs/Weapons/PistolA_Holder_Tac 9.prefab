@@ -290,7 +290,7 @@ MonoBehaviour:
   bulletCounter: {fileID: 0}
   gunName: pistolA
   magStack: 3
-  magIn: 48
+  magIn: 32
   maxRange: 300
 --- !u!111 &8444647291801770593
 Animation:

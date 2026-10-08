@@ -2,19 +2,7 @@
     letter-spacing: 0;
     transition-duration: 0.2s;
     font-size: 60px;
-    background-color: rgba(188, 188, 188, 0);
-    border-top-width: 5px;
-    border-right-width: 5px;
-    border-bottom-width: 5px;
-    border-left-width: 5px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;
-    border-left-color: rgb(255, 255, 255);
-    border-right-color: rgb(255, 255, 255);
-    border-top-color: rgb(255, 255, 255);
-    border-bottom-color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0);
     color: rgb(255, 255, 255);
     -unity-font-definition: url("project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&guid=782f6c62df863b74fbb41b0d20fdc22d&type=3#EXEPixelPerfect");
     -unity-font-style: normal;
@@ -27,20 +15,75 @@
     white-space: nowrap;
     text-overflow: clip;
     transition-timing-function: linear;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    background-image: url("project://database/Assets/Materials/locaterTitleBackgroundBox.png?fileID=374712125&guid=982e05c00ca67fe41be93e7c8d87095a&type=3#locaterTitleBackgroundBox_0");
+    -unity-background-scale-mode: stretch-to-fill;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
 }
 
 .btn:hover {
-    transition-property: all;
-    transition-duration: 0.1s;
+    letter-spacing: 0;
+    transition-duration: 0.2s;
+    font-size: 60px;
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&guid=782f6c62df863b74fbb41b0d20fdc22d&type=3#EXEPixelPerfect");
+    -unity-font-style: normal;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    height: auto;
+    width: initial;
+    -unity-text-align: middle-center;
+    white-space: nowrap;
+    text-overflow: clip;
     transition-timing-function: linear;
-    font-size: 70px;
-    background-color: rgba(102, 102, 102, 0.498);
-    border-bottom-width: 20px;
-    border-left-color: rgb(255, 120, 0);
-    border-right-color: rgb(255, 120, 0);
-    border-top-color: rgb(255, 120, 0);
-    border-bottom-color: rgb(255, 120, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    background-image: url("project://database/Assets/Materials/locaterTitleBackgroundBox.png?fileID=374712125&guid=982e05c00ca67fe41be93e7c8d87095a&type=3#locaterTitleBackgroundBox_0");
+    -unity-background-scale-mode: stretch-to-fill;
+    -unity-background-image-tint-color: rgb(255, 120, 0);
+    -unity-slice-left: 0;
+    -unity-slice-top: 0;
+    -unity-slice-right: 0;
+    -unity-slice-bottom: 0;
+    scale: 1.05 1.05;
 }
 
+
+
 .btn:active {
+    letter-spacing: 0;
+    transition-duration: 0.2s;
+    font-size: 60px;
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&guid=782f6c62df863b74fbb41b0d20fdc22d&type=3#EXEPixelPerfect");
+    -unity-font-style: normal;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    height: auto;
+    width: initial;
+    -unity-text-align: middle-center;
+    white-space: nowrap;
+    text-overflow: clip;
+    transition-timing-function: linear;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    background-image: url("project://database/Assets/Materials/locaterTitleBackgroundBox.png?fileID=374712125&guid=982e05c00ca67fe41be93e7c8d87095a&type=3#locaterTitleBackgroundBox_0");
+    -unity-background-scale-mode: stretch-to-fill;
+    -unity-background-image-tint-color: rgb(148, 70, 0);
+    -unity-slice-left: 0;
+    -unity-slice-top: 0;
+    -unity-slice-right: 0;
+    -unity-slice-bottom: 0;
+    scale: 1 1;
 }
