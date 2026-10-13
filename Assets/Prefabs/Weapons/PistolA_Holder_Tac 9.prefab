@@ -266,7 +266,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9286f3475b9d9e4b9cd6671f418958a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Guns
+  WeaponName: Tac 9
   CanUse: 0
+  fpsCam: {fileID: 0}
   twoIkRight_Target: {fileID: 0}
   twoIkLeft_Target: {fileID: 0}
   twoIkRight_Hint: {fileID: 0}
@@ -277,6 +279,7 @@ MonoBehaviour:
   twoIkLeft_Rot: {x: 70, y: 0, z: 0}
   twoIkRight_HintPos: {x: 3, y: -2, z: 1}
   twoIkLeft_HintPos: {x: -3, y: -2, z: 1}
+  bulletHole: {fileID: 1062962034047953973, guid: 3ecd0ba940162d4469210962dd612125, type: 3}
   NuzzlePoint: {fileID: 1287209474391533728}
   GunMarginToCamera: {x: 0.2, y: -0.05, z: 0.45}
   GunAimingMarginToCamera: {x: 0, y: -0.06, z: 0.2}
@@ -292,6 +295,7 @@ MonoBehaviour:
   magStack: 3
   magIn: 32
   maxRange: 300
+  reloading: 0
 --- !u!111 &8444647291801770593
 Animation:
   m_ObjectHideFlags: 0

@@ -73,11 +73,11 @@ public class MenuManager : MonoBehaviour
         switch (menuName)
         {
             case "Settings":
-                camSettings.Priority -= 2;
+                camSettings.Priority = 0;
                 settingsUi.rootVisualElement.visible = false;
                 break;
             case "Training":
-                camFPS.Priority -= 2;
+                camFPS.Priority = 0;
                 trainingUi.SetActive(false);
                 isTrainingActive = false;
                 CanMove = false;

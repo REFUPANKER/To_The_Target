@@ -1,10 +1,17 @@
 using TMPro;
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Guns : MonoBehaviour
 {
+
+    [Header("Properties")]
+    public string WeaponName;
+
+    [Header("InGame Requirements")]
     public bool CanUse;
+    [SerializeField] CinemachineCamera fpsCam;
     [SerializeField] Transform twoIkRight_Target, twoIkLeft_Target;
     [SerializeField] Transform twoIkRight_Hint, twoIkLeft_Hint;
     [SerializeField] Transform gunHoldingPoint_Left, gunHoldingPoint_Right;
@@ -12,38 +19,41 @@ public class Guns : MonoBehaviour
     [SerializeField] Vector3 twoIkRight_Rot, twoIkLeft_Rot;
     [SerializeField] Vector3 twoIkRight_HintPos, twoIkLeft_HintPos;
 
-    [SerializeField] Transform NuzzlePoint;
+    [SerializeField] Transform bulletHole;
+    [SerializeField] protected Transform NuzzlePoint;
     [SerializeField] Vector3 GunMarginToCamera, GunAimingMarginToCamera;
     Vector3 currentGunMargin;
     [SerializeField] float gunRealignerSmoothness = 5, gunRealignerAimingSmoothness = 10;
     float defaultGunRealignerSmoothness;
-    bool aiming;
+    protected bool aiming;
 
     [SerializeField] bool CanFire = true, isAutomatic;
     [SerializeField] ParticleSystem fireParticles;
     [SerializeField] Animation anims;
     [SerializeField] AudioClip fireSfx;
     [SerializeField] TextMeshProUGUI bulletCounter;
-    [SerializeField] string gunName;
+    [SerializeField, Tooltip("used for calling animations")] string gunName;
     [SerializeField] int magStack, magIn;
-    int defaultMagCapacity;
-    [SerializeField] float maxRange;
-    bool reloading;
+    int defaultMagStack, defaultMagCapacity;
+    [SerializeField] protected float maxRange;
+    public bool reloading;
 
     public void PickUpGun()
     {
         CanUse = true;
         RefreshBulletCount();
     }
-    void Start()
+    protected void Start()
     {
         defaultGunRealignerSmoothness = gunRealignerSmoothness;
         currentGunMargin = GunMarginToCamera;
+        defaultMagStack = magStack;
         defaultMagCapacity = magIn;
+        RefreshBulletCount();
     }
     void RefreshBulletCount()
     {
-        if (magStack + magIn <= 0) { CanFire = false; }
+        CanFire = magStack + magIn > 0;
         bulletCounter.text = magStack + "/" + magIn;
     }
     /// <summary>
@@ -60,16 +70,35 @@ public class Guns : MonoBehaviour
             currentGunMargin = GunAimingMarginToCamera; defaultGunRealignerSmoothness = gunRealignerAimingSmoothness;
         }
     }
-    void Update()
+
+    public void Refill()
+    {
+        reloading = true;
+        if (anims.isPlaying) { anims.Rewind(); anims.Sample(); anims.Stop(); }
+        if (aiming) { currentGunMargin = GunMarginToCamera; defaultGunRealignerSmoothness = gunRealignerSmoothness; }
+        magStack = defaultMagStack;
+        magIn = defaultMagCapacity;
+        anims.Play($"{gunName}_reload");
+    }
+    protected void Update()
     {
         if (!CanUse) { return; }
 
-        transform.position = Vector3.Lerp(transform.position, Camera.main.transform.TransformPoint(currentGunMargin), defaultGunRealignerSmoothness * Time.deltaTime);
-        transform.rotation = Quaternion.Lerp(transform.rotation, Camera.main.transform.rotation, defaultGunRealignerSmoothness * Time.deltaTime);
-
         if (!anims.isPlaying && !aiming && Input.GetKeyDown(KeyCode.F)) { anims.Play($"{gunName}_inspect"); }
 
+        if (CanFire && !anims.IsPlaying($"{gunName}_fire") && !anims.IsPlaying($"{gunName}_reload") && magIn == 0 && magStack > 0)
+        {
+            // wait last fire animation to play and reload automaticially
+            reloading = true;
+            if (aiming)
+            { // set to default margins because i dont want player watch reloading that close
+                currentGunMargin = GunMarginToCamera; defaultGunRealignerSmoothness = gunRealignerSmoothness;
+            }
+            anims.Play($"{gunName}_reload");
+        }
+
         if (aiming && anims.IsPlaying($"{gunName}_inspect")) { anims.Rewind($"{gunName}_inspect"); anims.Sample(); anims.Stop(); }//TODO: fix : when inspecting its also aiming and its looking bad
+
         bool firingType = isAutomatic ? Input.GetKey(KeyCode.Mouse0) : Input.GetKeyDown(KeyCode.Mouse0);
         if (CanFire && firingType && !anims.IsPlaying($"{gunName}_fire") && !reloading)
         {
@@ -78,21 +107,16 @@ public class Guns : MonoBehaviour
             anims.Play($"{gunName}_fire");
             fireParticles.Play();
             magIn = magIn - 1 < 0 ? 0 : magIn - 1;
-            if (magIn == 0 && magStack > 0)
-            {
-                reloading = true;
-                if (aiming)
-                { // set to default margins because i dont want player watch reloading that close
-                    currentGunMargin = GunMarginToCamera; defaultGunRealignerSmoothness = gunRealignerSmoothness;
-                }
-                anims.Play($"{gunName}_reload");
-            }
             RefreshBulletCount();
 
             RaycastHit hit;
             if (Physics.Raycast(NuzzlePoint.position, NuzzlePoint.forward, out hit, maxRange))
             {
                 Debug.DrawLine(NuzzlePoint.position, hit.point, Color.green, 0.5f);
+
+                Transform hole = Instantiate(bulletHole, hit.point + hit.normal * 0.1f, Quaternion.LookRotation(hit.normal));
+                hole.parent = hit.transform;
+                Destroy(hole.gameObject, anims.GetClip($"{gunName}_fire").length * 5);
 
                 switch (hit.transform.gameObject.tag)
                 {
@@ -113,6 +137,9 @@ public class Guns : MonoBehaviour
 
     void HandsAndAiming()
     {
+        transform.position = Vector3.Lerp(transform.position, fpsCam.transform.TransformPoint(currentGunMargin), defaultGunRealignerSmoothness * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, fpsCam.transform.rotation, defaultGunRealignerSmoothness * Time.deltaTime);
+
         twoIkLeft_Target.position = gunHoldingPoint_Left.position;
         twoIkRight_Target.position = gunHoldingPoint_Right.position;
         twoIkLeft_Target.rotation = transform.rotation * Quaternion.Euler(twoIkLeft_Rot);

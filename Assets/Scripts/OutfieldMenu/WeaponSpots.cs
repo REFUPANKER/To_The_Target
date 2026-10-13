@@ -7,7 +7,7 @@ public class WeaponSpots : MonoBehaviour
     [SerializeField] WeaponPicker wp;
     [SerializeField] bool CanUse;
     [SerializeField] CinemachineCamera cam;
-    [SerializeField] Transform[] weapons;
+    [SerializeField] Guns[] weapons;
     [SerializeField] TextMeshProUGUI weaponName;
     [SerializeField] Vector3 zoomMargin;
     [SerializeField] int CurrentTargetIndex = 0;
@@ -78,12 +78,9 @@ public class WeaponSpots : MonoBehaviour
     public void ChangeWeapon(int direction)
     {
         CurrentTargetIndex += direction;
-
         CurrentTargetIndex = CurrentTargetIndex > weapons.Length - 1 ? 0 : (CurrentTargetIndex < 0 ? weapons.Length - 1 : CurrentTargetIndex);
-
-        targetZoomPosition = weapons[CurrentTargetIndex].localPosition;
-        string cutName = weapons[CurrentTargetIndex].name.Substring(weapons[CurrentTargetIndex].name.LastIndexOf("_")+1);
-        weaponName.text = cutName;
+        targetZoomPosition = weapons[CurrentTargetIndex].transform.localPosition;
+        weaponName.text = weapons[CurrentTargetIndex].WeaponName;
         makeZoom = true;
     }
 
