@@ -6,17 +6,23 @@
             <ui:Label text="Settings" style="align-self: center; justify-content: center; align-content: center; color: rgb(255, 255, 255); -unity-text-align: middle-center; letter-spacing: 20px; -unity-font-definition: url(&quot;project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&amp;guid=782f6c62df863b74fbb41b0d20fdc22d&amp;type=3#EXEPixelPerfect&quot;); font-size: 50px; flex-shrink: 1; flex-grow: 1; align-items: auto;"/>
         </ui:VisualElement>
         <ui:TabView name="settingtabs" style="height: auto; flex-grow: 1;">
+            <ui:Tab label="General" style="flex-grow: 2; align-items: center; justify-content: center; align-self: auto;">
+                <ui:VisualElement name="VisualElement" style="align-items: stretch; justify-content: flex-start; width: auto;">
+                    <ui:Label text="General" style="color: rgb(255, 255, 255); font-size: 70px; -unity-font-definition: url(&quot;project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&amp;guid=782f6c62df863b74fbb41b0d20fdc22d&amp;type=3#EXEPixelPerfect&quot;); -unity-text-align: upper-center; white-space: pre-wrap;"/>
+                    <ui:Slider label="Mouse Sensitivity" value="100" high-value="500" fill="true" page-size="0.86" name="MouseSensSlider" style="font-size: 70px; color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&amp;guid=782f6c62df863b74fbb41b0d20fdc22d&amp;type=3#EXEPixelPerfect&quot;);"/>
+                    <ui:Slider label="Aiming Sensitivity" value="15" high-value="500" fill="true" page-size="0.86" name="AimingSensSlider" style="font-size: 70px; color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&amp;guid=782f6c62df863b74fbb41b0d20fdc22d&amp;type=3#EXEPixelPerfect&quot;);"/>
+                    <ui:Slider label="Sniper Sensitivity" value="15" high-value="500" fill="true" page-size="0.86" name="SniperSensSlider" style="font-size: 70px; color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&amp;guid=782f6c62df863b74fbb41b0d20fdc22d&amp;type=3#EXEPixelPerfect&quot;);"/>
+                    <ui:Slider label="Master Volume" value="0.5" high-value="1" fill="true" page-size="0.86" name="MasterVolumeSlider" style="font-size: 70px; color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&amp;guid=782f6c62df863b74fbb41b0d20fdc22d&amp;type=3#EXEPixelPerfect&quot;);"/>
+                    <ui:Slider label="Sound Effects" value="0.5" high-value="1" fill="true" page-size="0.86" name="SfxVolumeSlider" style="font-size: 70px; color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&amp;guid=782f6c62df863b74fbb41b0d20fdc22d&amp;type=3#EXEPixelPerfect&quot;);"/>
+                    <ui:Button text="Save Settings" name="SaveButton" style="font-size: 50px; -unity-font-definition: url(&quot;project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&amp;guid=782f6c62df863b74fbb41b0d20fdc22d&amp;type=3#EXEPixelPerfect&quot;);"/>
+                </ui:VisualElement>
+            </ui:Tab>
             <ui:Tab label="Map" name="Tab" style="flex-grow: 2;">
                 <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-shrink: 1; width: 100%; justify-content: center; align-items: center; flex-wrap: nowrap; background-image: url(&quot;project://database/Assets/Materials/OutfieldMenuSettingsSideMonitor.png?fileID=2800000&amp;guid=419e91946bf185b40a7afb0f09f279c2&amp;type=3#OutfieldMenuSettingsSideMonitor&quot;);"/>
             </ui:Tab>
             <ui:Tab label="Sound">
                 <ui:VisualElement>
                     <ui:Label text="Sound" style="color: rgb(255, 255, 255); font-size: 40px;"/>
-                </ui:VisualElement>
-            </ui:Tab>
-            <ui:Tab label="General" style="flex-grow: 2;">
-                <ui:VisualElement>
-                    <ui:Label text="General" style="color: rgb(255, 255, 255); font-size: 40px;"/>
                 </ui:VisualElement>
             </ui:Tab>
         </ui:TabView>

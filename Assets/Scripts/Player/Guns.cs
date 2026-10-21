@@ -19,18 +19,20 @@ public class Guns : MonoBehaviour
     [SerializeField] Vector3 twoIkRight_Rot, twoIkLeft_Rot;
     [SerializeField] Vector3 twoIkRight_HintPos, twoIkLeft_HintPos;
 
-    [SerializeField] Transform bulletHole;
+    [Header("Aiming")]
+    public bool isSniper;
+    [Tooltip("Automaticially set by settings manager")] public float aimingSens;
     [SerializeField] protected Transform NuzzlePoint;
-    [SerializeField] Vector3 GunMarginToCamera, GunAimingMarginToCamera;
-    Vector3 currentGunMargin;
-    [SerializeField] float gunRealignerSmoothness = 5, gunRealignerAimingSmoothness = 10;
-    float defaultGunRealignerSmoothness;
-    protected bool aiming;
+    [SerializeField] protected Vector3 GunMarginToCamera, GunAimingMarginToCamera;
+    protected Vector3 currentGunMargin;
+    [SerializeField] protected float gunRealignerSmoothness = 5, gunRealignerAimingSmoothness = 10;
+    protected float defaultGunRealignerSmoothness;
+    public bool aiming;
 
     [SerializeField] bool CanFire = true, isAutomatic;
     [SerializeField] ParticleSystem fireParticles;
     [SerializeField] Animation anims;
-    [SerializeField] AudioClip fireSfx;
+    [SerializeField] AudioClip fireSfx, reloadSfx;
     [SerializeField] TextMeshProUGUI bulletCounter;
     [SerializeField, Tooltip("used for calling animations")] string gunName;
     [SerializeField] int magStack, magIn;
@@ -38,28 +40,54 @@ public class Guns : MonoBehaviour
     [SerializeField] protected float maxRange;
     public bool reloading;
 
+    [Header("Bullets")]
+    [SerializeField] GunsBullet bullet;
+    [SerializeField] Transform bulletEjectPoint;
+
+    [Header("Camera Shake")]
+    [SerializeField] float shakeTime = 0.1f, shakeDensity = 1;
+
     public void PickUpGun()
     {
+        SettingsManager.OnSettingsChanged += (GameSettings g) =>
+        {
+            aimingSens = isSniper ? g.sniperSens : g.aimingSens;
+        };
         CanUse = true;
         RefreshBulletCount();
     }
     protected void Start()
     {
+        aimingSens = isSniper ? SettingsManager.Instance.CurrentSettings.sniperSens : SettingsManager.Instance.WorkingSettings.aimingSens;
+        bullet.gameObject.SetActive(false);
         defaultGunRealignerSmoothness = gunRealignerSmoothness;
         currentGunMargin = GunMarginToCamera;
         defaultMagStack = magStack;
         defaultMagCapacity = magIn;
         RefreshBulletCount();
     }
-    void RefreshBulletCount()
+    public void RefreshBulletCount()
     {
         CanFire = magStack + magIn > 0;
         bulletCounter.text = magStack + "/" + magIn;
     }
+
+    protected virtual void ReloadTriggered() { AudioSource.PlayClipAtPoint(reloadSfx, transform.position); }
+    public void RewindAnimations() { anims.Rewind(); anims.Sample(); anims.Stop(); }
+
+    public void FireBullet(Vector3 target, RaycastHit? hit)
+    {
+        GunsBullet nb = Instantiate(bullet, null);
+        nb.gameObject.SetActive(true);
+        nb.transform.position = NuzzlePoint.position;
+        nb.transform.rotation = transform.rotation;
+        nb.Fire(target, bulletEjectPoint.position, hit);
+        CameraEffects.ready.EffectShake(shakeTime, shakeDensity);
+    }
     /// <summary>
     /// called by reload event
     /// </summary>
-    void Reloaded()
+    protected virtual void Reloaded()
     {
         magStack = magStack - 1 < 0 ? 0 : magStack - 1;
         magIn = defaultMagCapacity;
@@ -74,12 +102,14 @@ public class Guns : MonoBehaviour
     public void Refill()
     {
         reloading = true;
-        if (anims.isPlaying) { anims.Rewind(); anims.Sample(); anims.Stop(); }
+        ReloadTriggered();
+        if (anims.isPlaying) { RewindAnimations(); }
         if (aiming) { currentGunMargin = GunMarginToCamera; defaultGunRealignerSmoothness = gunRealignerSmoothness; }
         magStack = defaultMagStack;
         magIn = defaultMagCapacity;
         anims.Play($"{gunName}_reload");
     }
+
     protected void Update()
     {
         if (!CanUse) { return; }
@@ -95,12 +125,13 @@ public class Guns : MonoBehaviour
                 currentGunMargin = GunMarginToCamera; defaultGunRealignerSmoothness = gunRealignerSmoothness;
             }
             anims.Play($"{gunName}_reload");
+            ReloadTriggered();
         }
 
-        if (aiming && anims.IsPlaying($"{gunName}_inspect")) { anims.Rewind($"{gunName}_inspect"); anims.Sample(); anims.Stop(); }//TODO: fix : when inspecting its also aiming and its looking bad
+        if (aiming && anims.IsPlaying($"{gunName}_inspect")) { RewindAnimations(); }
 
         bool firingType = isAutomatic ? Input.GetKey(KeyCode.Mouse0) : Input.GetKeyDown(KeyCode.Mouse0);
-        if (CanFire && firingType && !anims.IsPlaying($"{gunName}_fire") && !reloading)
+        if (CanFire && firingType && !anims.IsPlaying($"{gunName}_fire") && !reloading && magIn + magStack > 0)
         {
             if (anims.IsPlaying($"{gunName}_inspect")) { anims.Stop($"{gunName}_inspect"); }
             AudioSource.PlayClipAtPoint(fireSfx, transform.position);
@@ -113,22 +144,11 @@ public class Guns : MonoBehaviour
             if (Physics.Raycast(NuzzlePoint.position, NuzzlePoint.forward, out hit, maxRange))
             {
                 Debug.DrawLine(NuzzlePoint.position, hit.point, Color.green, 0.5f);
-
-                Transform hole = Instantiate(bulletHole, hit.point + hit.normal * 0.1f, Quaternion.LookRotation(hit.normal));
-                hole.parent = hit.transform;
-                Destroy(hole.gameObject, anims.GetClip($"{gunName}_fire").length * 5);
-
-                switch (hit.transform.gameObject.tag)
-                {
-                    case "ScoreTarget":
-                        ScoreTarget st = hit.transform.GetComponent<ScoreTarget>();
-                        st.Fall(hit.point);
-                        break;
-                    case "ExplosiveTarget":
-                        ExplosiveTarget expT = hit.transform.GetComponent<ExplosiveTarget>();
-                        expT.Explode();
-                        break;
-                }
+                FireBullet(hit.point, hit);
+            }
+            else
+            {
+                FireBullet(NuzzlePoint.position + NuzzlePoint.forward * maxRange, null);
             }
         }
 

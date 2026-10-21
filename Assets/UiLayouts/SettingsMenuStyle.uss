@@ -167,3 +167,11 @@ VisualElement > #settings_back:hover {
     background-color: rgba(0, 0, 0, 0);
     scale: 1.05 1.05;
 }
+
+VisualElement > #settingtabs > .unity-tab > #unity-tab__content-container {
+    width: 70%;
+}
+
+VisualElement > #settingtabs > .unity-tab > #VisualElement * .unity-slider__input > #unity-drag-container > #unity-dragger {
+    width: 10%;
+}

@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Unity.Cinemachine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
     [SerializeField] UIDocument uiDocument;
     [SerializeField] Transform playerPosition;
     [SerializeField] GameObject trainingUi;
-    [SerializeField] UIDocument settingsUi;
+    [SerializeField] TextMeshProUGUI bulletCounter;
+    [SerializeField] UIDocument settingsUi, trainingSettingsUi;
+    [SerializeField] SettingsUIController settingsUiCtrl, trainingUiCtrl;
     [SerializeField] WeaponPicker weaponPicker;
 
     [Header("Movement Settings")]
@@ -18,22 +22,24 @@ public class MenuManager : MonoBehaviour
     [SerializeField] CharacterController controller;
     [SerializeField] CinemachineCamera camFPS, camSettings;
     [SerializeField] Animator anims;
-    [SerializeField] float moveSpeed = 5f;
-    [SerializeField] float mouseSensitivity = 100f;
     [SerializeField] float clampMin = -70f;
     [SerializeField] float clampMax = 70f;
+    [SerializeField] float moveSpeed = 8, aimingMoveSpeed = 4;
     private float gravity = -19.62f;
 
     Vector3 moveDirection;
-    bool isGrounded;
+    bool isGrounded, paused;
     float rotx;
 
     bool isTrainingActive = false;
-
+    private float mouseSens, defaultMoveSpeed;
     void Start()
     {
-        InitMenuEvents();
+        mouseSens = SettingsManager.Instance.CurrentSettings.mouseSensitivity;
+        defaultMoveSpeed = moveSpeed;
         CanMove = false;
+        trainingSettingsUi.rootVisualElement.visible = false;
+        InitMenuEvents();
     }
 
     void Update()
@@ -47,6 +53,12 @@ public class MenuManager : MonoBehaviour
     void InitMenuEvents()
     {
         var root = uiDocument.rootVisualElement;
+
+        var playButton = root.Q<Button>("play");
+        playButton.clicked += () =>
+        {
+            SceneManager.LoadScene("MainGame");
+        };
 
         var trainingButton = root.Q<Button>("training");
         trainingButton.clicked += OnTrainingButtonClicked;
@@ -62,6 +74,7 @@ public class MenuManager : MonoBehaviour
 
     void OnSettingsButtonClicked()
     {
+        settingsUiCtrl.LoadData();
         camSettings.Priority += 2;
         settingsUi.rootVisualElement.visible = true;
         uiDocument.rootVisualElement.visible = false;
@@ -92,6 +105,7 @@ public class MenuManager : MonoBehaviour
     {
         camFPS.Priority += 2;
         trainingUi.SetActive(true);
+        bulletCounter.text = "";
         isTrainingActive = true;
         CanMove = true;
         controller.enabled = false;
@@ -102,26 +116,59 @@ public class MenuManager : MonoBehaviour
         TogglePause(false);
     }
 
-    void TogglePause(bool pause)
+    public void TogglePause(bool pause, bool ShowSettings = false)
     {
         if (pause)
         {
             UnityEngine.Cursor.lockState = CursorLockMode.None;
             UnityEngine.Cursor.visible = true;
+            weaponPicker.CanUse = false;
+            weaponPicker.PauseResume(true);
+            if (ShowSettings)
+            {
+                trainingUiCtrl.LoadData();
+                trainingSettingsUi.rootVisualElement.visible = true;
+            }
         }
         else
         {
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             UnityEngine.Cursor.visible = false;
+            weaponPicker.PauseResume(false);
+            trainingSettingsUi.rootVisualElement.visible = false;
         }
+        paused = !paused;
     }
 
     void Move()
     {
-        if (!CanMove || !isTrainingActive || weaponPicker.isInWeaponSpot) { return; }
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause(paused, true);
+        }
+        if (!paused || !CanMove || !isTrainingActive || weaponPicker.isInWeaponSpot) { return; }
 
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        if (weaponPicker.ActiveGun != null)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                mouseSens = weaponPicker.ActiveGun.aimingSens;
+                moveSpeed = aimingMoveSpeed;
+            }
+            if (Input.GetKeyUp(KeyCode.Mouse1))
+            {
+                mouseSens = SettingsManager.Instance.WorkingSettings.mouseSensitivity;
+                moveSpeed = defaultMoveSpeed;
+            }
+        }
+        else
+        {
+            mouseSens = SettingsManager.Instance.WorkingSettings.mouseSensitivity;
+        }
+
+
+        float mouseX = Input.GetAxis("Mouse X") * mouseSens * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSens * Time.deltaTime;
         rotx -= mouseY;
         rotx = Mathf.Clamp(rotx, clampMin, clampMax);
         camFPS.transform.localRotation = Quaternion.Euler(rotx, 0f, 0f);

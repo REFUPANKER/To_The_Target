@@ -11,6 +11,9 @@ public class ExplosiveTarget : MonoBehaviour
     [SerializeField] bool triggered;
     [SerializeField] Transform flyAroundObjHolder;
     [SerializeField] BoxCollider parentCollider;
+
+    [Header("Camera Shake")]
+    [SerializeField] float shakeTime = 0.1f, shakeDensity = 1;
     public void Explode()
     {
         if (triggered) { return; }
@@ -29,6 +32,7 @@ public class ExplosiveTarget : MonoBehaviour
     {
         sfx.Play();
         vfx.Play();
+        CameraEffects.ready.EffectShake(shakeTime,shakeDensity);
         parentCollider.enabled = false;
         Rigidbody[] rbs = flyAroundObjHolder.GetComponentsInChildren<Rigidbody>();
 

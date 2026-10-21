@@ -8,7 +8,7 @@ public class Movement : MonoBehaviour
     public CharacterController controller;
     public bool CanMove = true;
     [SerializeField] Parachute pchute;
-    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float moveSpeed = 8f, aimingMoveSpeed;
     [SerializeField] float jumpHeight = 1.5f;
     [SerializeField] float gravity = -19.62f;
     [SerializeField] float mouseSensitivity = 100, clampMin = -70, clampMax = 70;
@@ -18,11 +18,41 @@ public class Movement : MonoBehaviour
     Vector3 moveDirection;
     bool isGrounded;
     [SerializeField] CinemachineCamera camFPS;
-    float rotx;
+    float rotx, defaultMoveSpeed;
+
+    [Header("Guns")]
+    public Guns ActiveGun;
+
+    void Start()
+    {
+        defaultMoveSpeed = moveSpeed;
+    }
+    public void PauseResume(bool paused){
+        if (paused)
+        {
+            CanMove=false;
+            ActiveGun.CanUse=false;
+        }else{
+            CanMove=true;
+            ActiveGun.CanUse=true;
+        }
+    }
     void Update()
     {
         if (!CanMove) { return; }
-
+        if (ActiveGun != null)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                mouseSensitivity = ActiveGun.aimingSens;
+                moveSpeed = aimingMoveSpeed;
+            }
+            if (Input.GetKeyUp(KeyCode.Mouse1))
+            {
+                mouseSensitivity = SettingsManager.Instance.WorkingSettings.mouseSensitivity;
+                moveSpeed = defaultMoveSpeed;
+            }
+        }
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
         rotx -= mouseY;

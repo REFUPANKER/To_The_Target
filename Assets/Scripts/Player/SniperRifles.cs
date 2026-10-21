@@ -52,4 +52,14 @@ public class SniperRifles : Guns
             }
         }
     }
+    protected override void ReloadTriggered()
+    {
+        base.ReloadTriggered();
+        if (aiming) { scopeCam.Priority = 0; }
+    }
+    protected override void Reloaded()
+    {
+        base.Reloaded();
+        if (aiming) { scopeCam.Priority += priorityIncreaser; }
+    }
 }

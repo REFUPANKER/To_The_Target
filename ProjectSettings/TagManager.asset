@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ScoreTarget
   - ExplosiveTarget
+  - fpsCam
   layers:
   - Default
   - TransparentFX

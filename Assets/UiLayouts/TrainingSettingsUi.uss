@@ -1,0 +1,59 @@
+VisualElement > #TrainingUiBody {
+}
+
+VisualElement > .unity-scroll-view--vertical > #TrainingUiBody > .unity-slider {
+    -unity-font-definition: url("project://database/Assets/Fonts/EXEPixelPerfect.ttf?fileID=12800000&guid=782f6c62df863b74fbb41b0d20fdc22d&type=3#EXEPixelPerfect");
+    font-size: 50px;
+    color: rgb(255, 255, 255);
+}
+
+VisualElement > .unity-scroll-view--vertical > #TrainingUiBody > .unity-slider > #unity-dragger {
+    width: 50%;
+    height: 56px;
+}
+
+VisualElement > .unity-scroll-view--vertical > #TrainingUiBody > .unity-slider > .unity-slider__label {
+    color: rgb(255, 255, 255);
+}
+
+VisualElement > .unity-scroll-view--vertical > #TrainingUiBody > .unity-slider > .unity-slider__input > #unity-drag-container > #unity-tracker > #unity-fill {
+    background-color: rgb(255, 120, 0);
+}
+
+VisualElement > .unity-scroll-view--vertical > #TrainingUiBody > .unity-slider > .unity-slider__input > #unity-drag-container > #unity-dragger {
+    width: 5%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+VisualElement > #trainingScrollView > #unity-content-and-vertical-scroll-container > .unity-scroll-view__vertical-scroller > #unity-slider > .unity-slider__input > #unity-drag-container > #unity-dragger {
+    background-color: rgb(255, 120, 0);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+VisualElement > #trainingScrollView > #unity-content-and-vertical-scroll-container > .unity-scroll-view__vertical-scroller > #unity-slider > .unity-slider__input > #unity-drag-container > #unity-tracker {
+    background-color: rgb(28, 28, 28);
+}
+
+VisualElement > #trainingScrollView > #unity-content-and-vertical-scroll-container > .unity-scroll-view__vertical-scroller > #unity-low-button {
+    background-color: rgb(28, 28, 28);
+    -unity-background-image-tint-color: rgb(255, 120, 0);
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+VisualElement > #trainingScrollView > #unity-content-and-vertical-scroll-container > .unity-scroll-view__vertical-scroller > #unity-high-button {
+    background-color: rgb(28, 28, 28);
+    -unity-background-image-tint-color: rgb(255, 120, 0);
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+}

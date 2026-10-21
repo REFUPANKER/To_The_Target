@@ -20,7 +20,7 @@ public class WeaponPicker : MonoBehaviour
     [SerializeField] Transform InHand;
     [SerializeField] string weaponSpotLayer, ammoRefillLayerMask, ShootingRangeExitDoor;
     [SerializeField] float accessRange = 5f;
-    [SerializeField] Guns ActiveGun;
+    public Guns ActiveGun;
     void Update()
     {
         if (!CanUse) { return; }
@@ -110,6 +110,23 @@ public class WeaponPicker : MonoBehaviour
 
             twoIkLeft_Hint.localPosition = emptyHandLeft_HintPos;
             twoIkRight_Hint.localPosition = emptyHandRight_HintPos;
+        }
+    }
+
+    public void PauseResume(bool paused)
+    {
+        if (paused)
+        {
+            CanUse = false;
+            if (ActiveGun != null)
+            {
+                ActiveGun.CanUse = false;
+            }
+        }
+        else
+        {
+            CanUse = true;
+            if (ActiveGun != null) { ActiveGun.CanUse = true; }
         }
     }
 }
